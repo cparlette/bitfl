@@ -4,21 +4,14 @@ Another attempt at Billy in the Fat Lane
 Author:
 Chris Parlette
 
+Contributors:
+Matt Parlette
+
 July 11 2012 - Began work
 """
 
-class player():
-	def __init__(self):
-		self.money = 100
-		self.education = 0
-		self.happiness = 0
-		self.inventory = []
-	
-	def printStatus(self):
-	    print "Your current money is", player.money
-	    print "Your education level is", player.education
-	    print "Your happiness level is", player.happiness
-	    print "You currently own:\n", player.inventory
+from player import Player
+from game import Game
 
 class gametime():
     def __init__(self):
@@ -27,6 +20,11 @@ class gametime():
 
 
 print "Welcome to Billy in the Fat Lane!"
-player = player()
+#Create a player
+player1 = Player()
+#Create a game for the player
+game = Game()
+#Add the player
+game.add_player(player1)
 gametime = gametime()
-player.printStatus()
+print game
