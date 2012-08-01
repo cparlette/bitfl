@@ -1,19 +1,53 @@
 import player, location
 
 class Game:
-  def __init__(self):
+  def __init__(self,conf_file="game.conf"):
     #Game ID: date string with a random number on the end
     self.game_id = "2012-07-29-01"
-    self.max_players = 4
-    self.player_list = []
-    self.units_per_turn  = 5 #Number of time units for each turn
+    #Read the configuration from the file into a dictionary
+    conf = dict()
+    lines = [line.strip() for line in open(conf_file)]
+    for line in lines:
+      if line[0] is '#':
+        continue
+      entry = line.split('=')
+      if len(entry) == 2:
+        conf[entry[0].lower()] = entry[1]
+      else:
+        print "invalid game configuration line: '%s'" % str(line)
+    print "conf: "+str(conf)
+    #For any values not provided in the conf file, use defaults
+    #Max Players
+    if 'max_players' in conf:
+      self.max_players = int(conf['max_players'])
+    else:
+      self.max_players = 4
+    #Number of time units for each turn
+    if 'units_per_turn' in conf:
+      self.units_per_turn = int(conf['units_per_turn'])
+    else:
+      self.units_per_turn  = 5
     self.turn = 0 #Turn number we are currently on
+    self.player_list = []
+    self.locations = []
   
   def __repr__(self):
     result = "Game ID: "+self.game_id+"\n"
     result += "Players: "
     result += ", ".join(str(player) for player in self.player_list)+"\n"
     result += "Turn: "+str(self.turn)+"\n"
+    return result
+  
+  def debug_string(self):
+    result = "---------------------------\n"
+    result += "|Game Debug\n"
+    result += "|Game ID: "+self.game_id+"\n"
+    result += "|Max Players: "+str(self.max_players)+"\n"
+    result += "---------------------------\n"
+    return result
+  
+  def game_summary(self):
+    result = "Turn "+str(self.turn)
     return result
   
   def add_player(self,player):
@@ -38,3 +72,6 @@ class Game:
       player.add_time_units(self.units_per_turn)
     self.turn += 1
     return True
+  
+  def get_locations(self):
+    return self.locations

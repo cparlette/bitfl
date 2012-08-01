@@ -19,6 +19,15 @@ class Player():
     status += "You currently own:\n" + self.get_inventory
     return status
   
+  def player_summary(self):
+    summary = "Player "+self.name+"\n"
+    summary += "Units remaining this turn: "+str(self.units)+"\n"
+    summary += "Money: "+str(self.money)
+    summary += ", Education: "+str(self.education)
+    summary += ", Happiness: "+str(self.happiness)+"\n"
+    summary += "Inventory: "+", ".join(item for item in self.inventory)
+    return summary
+  
   def get_inventory(self):
     return self.inventory
   
