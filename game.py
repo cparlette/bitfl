@@ -68,10 +68,28 @@ class Game:
     return self.next_turn()
   
   def next_turn(self):
+    self.turn += 1
     for player in self.player_list:
       player.add_time_units(self.units_per_turn)
-    self.turn += 1
     return True
   
   def get_locations(self):
     return self.locations
+
+  def turn_complete(self):
+    """Return True if all players have used their time for this turn."""
+    for player in self.player_list:
+      if player.units > 0:
+        return False
+    return True
+  
+  def get_next_player(self):
+    """Return the next player that has turns remaining.
+    Return None if no players are found.
+    If all players are done, then the game moves to the next turn before returning."""
+    for player in self.player_list:
+      if player.units > 0:
+        return player
+    return None
+  
+  

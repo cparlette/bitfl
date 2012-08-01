@@ -36,16 +36,29 @@ def new_game():
 
 def run_game(game):
   done = False
-  while not done:
-    for player in game.player_list:
+  player = game.get_next_player() #get it started
+  while player:
+    while not done:
       print game.game_summary()
       print player.player_summary()
       print "\nTurn Menu\n---------"
+      print "(U)se time"
       print "(Q)uit"
       choice = raw_input("> ").lower()
       if choice == 'q':
-        done = True
-    game.next_turn() #we may want to move the changing of turns to the Game class
+        print "Exiting..."
+        return
+      if choice == 'u':
+        #This is for debugging, to see that turns will proceed
+        time = float(raw_input("Time to use: "))
+        player.units -= time
+        if player.units == 0:
+          done = True
+    if game.turn_complete():
+      print "Proceeding to next turn..."
+      game.next_turn() #move this to the Game class?
+    player = game.get_next_player()
+    done = False
 
 done = False
 print "Welcome to Billy in the Fat Lane!"
