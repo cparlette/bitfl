@@ -12,6 +12,7 @@ July 11 2012 - Began work
 
 from player import Player
 from game import Game
+import location
 
 class gametime():
     def __init__(self):
@@ -20,11 +21,21 @@ class gametime():
 
 
 print "Welcome to Billy in the Fat Lane!"
-#Create a player
-player1 = Player()
 #Create a game for the player
 game = Game()
-#Add the player
-game.add_player(player1)
+#Create players
+print "Creating players, blank line will stop adding players"
+adding = True
+while adding:
+  player = Player(raw_input("Player Name: "))
+  if player.name == '':
+    adding = False
+  else:
+    #Add the player
+    game.add_player(player)
+if game.start_game():
+  print "\n\n************\ngame started\n************"
+else:
+  print "error starting game"
 gametime = gametime()
 print game
